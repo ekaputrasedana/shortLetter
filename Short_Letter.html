@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Short Letter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #ffffff;
+        --text: #1a1a1a;
+        --muted: #5a5a5a;
+        --card-bg: #f0ede8;
+        --accent: #c8b99a;
+        --border: #e0dbd3;
+        --input-bg: #eeebe6;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── SCREEN 1: LANDING ── */
+      #screen-landing {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        gap: 2.5rem;
+        position: relative;
+      }
+
+      .brand-title {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(3.5rem, 14vw, 9rem);
+        font-weight: 300;
+        letter-spacing: 0.04em;
+        text-align: center;
+        line-height: 1;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 0.9s ease forwards 0.2s;
+      }
+
+      .subtitle {
+        font-size: clamp(0.75rem, 2.5vw, 0.95rem);
+        color: var(--muted);
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 400;
+        text-align: center;
+        opacity: 0;
+        animation: fadeUp 0.9s ease forwards 0.5s;
+      }
+
+      .input-wrapper {
+        width: 100%;
+        max-width: 480px;
+        opacity: 0;
+        animation: fadeUp 0.9s ease forwards 0.75s;
+      }
+
+      .input-box {
+        width: 100%;
+        background: var(--input-bg);
+        border: none;
+        border-bottom: 2px solid transparent;
+        padding: 1rem 1.4rem;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 400;
+        color: var(--text);
+        outline: none;
+        transition:
+          border-color 0.3s,
+          background 0.3s;
+        border-radius: 2px;
+      }
+
+      .input-box::placeholder {
+        color: #a0a0a0;
+        font-style: italic;
+      }
+      .input-box:focus {
+        background: #e8e4de;
+        border-bottom-color: var(--text);
+      }
+
+      .error-msg {
+        margin-top: 0.6rem;
+        font-size: 0.78rem;
+        color: #b05050;
+        letter-spacing: 0.05em;
+        min-height: 1.1em;
+        padding-left: 0.2rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .error-msg.show {
+        opacity: 1;
+      }
+
+      .btn-open {
+        margin-top: 1rem;
+        width: 100%;
+        max-width: 480px;
+        background: var(--text);
+        color: var(--bg);
+        border: none;
+        padding: 1rem 2rem;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 2px;
+        transition:
+          background 0.25s,
+          transform 0.15s;
+        opacity: 0;
+        animation: fadeUp 0.9s ease forwards 0.95s;
+      }
+      .btn-open:hover {
+        background: #333;
+        transform: translateY(-1px);
+      }
+      .btn-open:active {
+        transform: translateY(0);
+      }
+
+      /* ── SCREEN 2: LETTER ── */
+      #screen-letter {
+        display: none;
+        min-height: 100vh;
+        padding: 4rem 5% 4rem;
+        flex-direction: column;
+        gap: 2rem;
+        opacity: 0;
+        animation: fadeIn 0.8s ease forwards;
+      }
+      #screen-letter.visible {
+        display: flex;
+      }
+
+      .letter-greeting {
+        font-family: "Poppins", sans-serif;
+        font-size: clamp(2rem, 7vw, 4.5rem);
+        font-weight: 300;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+      }
+
+      .letter-greeting span {
+        display: inline-block;
+        position: relative;
+      }
+
+      .letter-card {
+        background: var(--card-bg);
+        border-radius: 4px;
+        padding: clamp(1.5rem, 5vw, 3.5rem) clamp(1.5rem, 6vw, 4rem);
+        line-height: 1.9;
+        font-size: clamp(0.85rem, 2.2vw, 1rem);
+        font-weight: 300;
+        color: var(--text);
+        max-width: 860px;
+        width: 100%;
+        min-height: 300px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .letter-card p {
+        margin-bottom: 1.2em;
+      }
+      .letter-card p:last-child {
+        margin-bottom: 0;
+      }
+
+      .letter-card .sign {
+        margin-top: 2em;
+        font-style: italic;
+        font-weight: 400;
+        color: var(--muted);
+        font-size: 0.9em;
+      }
+
+      .letter-ornament {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.5rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: none;
+        border: 1px solid var(--border);
+        padding: 0.65rem 1.3rem;
+        font-family: "Poppins", sans-serif;
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 500;
+        cursor: pointer;
+        border-radius: 2px;
+        color: var(--muted);
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+        align-self: flex-start;
+        margin-top: 0.5rem;
+      }
+      .btn-back:hover {
+        border-color: var(--text);
+        color: var(--text);
+      }
+
+      /* ── DECORATIVE LINE ── */
+      .deco-line {
+        width: 40px;
+        height: 1px;
+        background: var(--accent);
+        opacity: 0;
+        animation: fadeIn 1s ease forwards 1.1s;
+      }
+
+      /* ── ANIMATIONS ── */
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* ── MOBILE ── */
+      @media (max-width: 480px) {
+        #screen-letter {
+          padding: 2.5rem 5%;
+        }
+        .letter-card {
+          padding: 1.5rem 1.3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SCREEN 1: LANDING -->
+    <div id="screen-landing">
+      <h1 class="brand-title">SHORT LETTER</h1>
+      <div class="deco-line"></div>
+      <p class="subtitle">Ada pesan untukmu di sini</p>
+      <div class="input-wrapper">
+        <input class="input-box" id="nameInput" type="text" placeholder="Ketik Nama Panggilan Kamu Disini" autocomplete="off" spellcheck="false" />
+        <p class="error-msg" id="errorMsg">Nama tidak ditemukan. Coba lagi ya 🤍</p>
+      </div>
+      <button class="btn-open" onclick="openLetter()">Buka Suratmu →</button>
+    </div>
+
+    <!-- SCREEN 2: LETTER -->
+    <div id="screen-letter">
+      <button class="btn-back" onclick="goBack()">← Kembali</button>
+      <h2 class="letter-greeting" id="greetingText"></h2>
+      <div class="letter-card" id="letterContent">
+        <span class="letter-ornament">Short Letter</span>
+      </div>
+    </div>
+
+    <script>
+      // ── LETTER DATA ──
+      const letters = {
+        redi: {
+          greeting: "Halo, Redi!",
+          content: `
+      <p>Pertama aku mau ngucapin selamat buat mu karena udah bisa melewati KKN ini dengan baik. Jadi Kordes bukan tugas yang mudah, dan aku tau kamu sangat berusaha untuk membuat semuanya berjalan dengan baik. Aku yakin kedua orang tua mu bangga melihat kamu sekarang!</p>
+      <p>Kamu salah satu orang yang sangat memikirkan segalanya dan lumayan punya ketakutan tersendiri untuk melakukan sesuatu. Sebenarnya tidak jadi masalah besar sih, tapi kadang kamu harus lebih berani dan tidak perlu memikirkan hal-hal yang terlalu jauh.</p>
+      <p>Untuk selanjutnya, aku tau kamu sedang mengalami fase kehilangan semangat dalam kuliah, khususnya dalam menyusun tugas akhir. Akan tetapi, tetap harus dilanjutkan ya sampai selesai dan lulus!</p>
+    `,
+        },
+        arya: {
+          greeting: "Halo, Arya!",
+          content: `
+      <p>Salah satu orang yang sangat cepat dan mudah untuk berbaur dengan siapapun. Mungkin ada pengaruh dari jurusanmu. </p>
+<p>Meskipun kita tidak banyak memiliki waktu untuk berbicara, tapi aku tahu bahwa kamu orang yang baik dan punya visi yang bagus dalam menjalani kehidupan. </p>
+<p>Untuk selanjutnya, teruslah berkarya dan nikmati masa muda mu itu. Tapi perlu diimbangi juga dengan kuliahmu yang harus juga diselesaikan, yang tentunya bukan cuma untuk dirimu sendiri, tetapi juga untuk orang tuamu, kekasihmu, dan teman-temanmu! </p>
+    `,
+        },
+        julia: {
+          greeting: "Halo, Julia!",
+          content: `
+      <p>Orang yang punya kemampuan komunikatif yang sangat baik, mungkin ada hubungannya dengan jurusanmu.</p>
+<p>Satu hal yang pasti adalah kamu telah menjalankan tugasmu sebagai Sekretaris dengan baik dan memastikan semua kegiatan juga berjalan dengan baik.</p>
+<p>Apapun yang sedang menjadi hambatan atau tantanganmu ke depan, aku yakin kamu pasti bisa melewatinya.</p>
+    `,
+        },
+        dian: {
+          greeting: "Halo, Dian!",
+          content: `
+      <p>Kamu salah satu orang yang sangat super duper cepat beradaptasi dengan orang baru. Jujur aku iri sih dengan ini.</p>
+      <p>Tugasmu di KKN ini banyak banget, tapi yang awalnya kamu kurang yakin bisa menjalani semua ini, eh ternyata bisa lho kamu lakuin semua, dan itu keren!</p>
+      <p>Selanjutnya, kamu bisa fokus ke kuliahmu yang mungkin akan segera lulus. Tapi diingat juga fokus ke kuliah juga diimbangi dengan kesehatanmu. Aku senang punya teman kayak kamu. Btw jangan sering-sering ngelupain barang ya, kalau perlu habis dipakai itu langsung dimasukin tas aja biar tidak lupa.</p>
+    `,
+        },
+        imelda: {
+          greeting: "Halo, Imelda!",
+          content: `
+      <p>Bendahara yang sukses ngatur keuangan kita sampai ada sisa yang bisa dipakai untuk foya-foya wkwkwk.</p>
+      <p>Orang yang sangat baik dan ceria meskipun aku tahu jadi bendahara tidak mudah. Walaupun agak cerewet, tapi aku paham kenapa kamu harus cerewet.</p>
+      <p>Untuk selanjutnya, kamu bisa fokus kembali ke skripsimu itu yang harusnya bentar lagi udah selesai. Semangat dan semoga kamu bisa membanggakan kedua orang tuamu yang sangat kamu sayangi itu!</p>
+    `,
+        },
+        pilep: {
+          greeting: "Halo, Pilep!",
+          content: `
+      <p>Aku senang banget karena bisa punya temen yang dari papua lagi. Lumayan sering kita ngobrol dan banyak topik yang bisa kita bicarakan.</p>
+      <p>Kamu orang yang unik dan punya percaya diri yang tinggi, meskipun kadang masih malu-malu ya. Tapi aku yakin kamu adalah orang yang sangat baik dan ramah, senang banget bisa berteman dengan dirimu!</p>
+      <p>Selanjutnya, kamu bisa fokus ke kuliahmu lagi, tanpa ada banyak yang harus dipikirkan apalagi tentang proker. Semangat terus ya dan semoga kamu bisa stay di Bali, jadi kita bisa agendakan nongkrong di beach club itu wkwkwk. Btw, aku juga mau ngucapin terima kasih karena udah ngasih tahu beberapa brand yang kamu pakai dan aku jadi keracunan mau beli!</p>
+    `,
+        },
+        verita: {
+          greeting: "Halo, Verita!",
+          content: `
+      <p>Salah satu orang yang paling blak-blakan dan jujur yang aku kenal. Tidak banyak orang kayak kamu yang bisa sejujur itu.</p>
+      <p>Aku cuma mau ngucapin terima kasih karena bisa bantuin aku di PDD khususnya soal desain. Karena jujur aku tuh sebenarnya tidak terlalu bisa untuk desain.</p>
+      <p>Setelah ini, kamu udah bisa lepas dari dunia KKN ini yang emang pasti melelahkan. Tapi kamu harus ingat kuliahmu yang emang harus diselesaikan juga. Jangan lupa jaga kesehatan ya itu juga penting karena obat mahal banget sumpah!</p>
+    `,
+        },
+        turah: {
+          greeting: "Halo, Turah!",
+          content: `
+      <p>Aku jujur senang banget bisa punya teman yang baik banget kayak kamu.</p>
+      <p>Awalnya aku kira kamu tuh lumayan tinggi karena kasta mu itu, tapi setelah beberapa kali ketemu, kamu sangat ramah banget sampai juga ke keluarga mu ramah banget. Aku mau ngucapin terima kasih karena mau berteman sama aku dan maaf banget sering ngerepotin buat jemput atau pun nganterin aku selama KKN ini. 
+</p>
+      <p>Selanjutnya, semangat buat skripsi mu itu. Jangan lupa datanya juga harus diperhatiin biar tidak terlalu kena bantai pas UP atau sidang nanti. Salam buat keluargamu khususnya ibu mu ya maaf belum bisa ngasih apa-apa!</p>
+    `,
+        },
+        tobi: {
+          greeting: "Halo, Tobi!",
+          content: `
+      <p>Partner untuk mengurus babe atah kakek itu. Senang bisa bareng 1 kelompok KK Dampingan.</p>
+      <p>Kamu orang yang baik, tapi kamu sering gugup sih saat berbicara jadi kadang suka sulit untuk dipahami. Aku yakin kamu adalah orang yang bisa melakukan apapun.</p>
+      <p>Selanjutnya, kamu bisa melanjutkan kuliahmu. Semoga bisa selesai dengan tepat waktu!</p>
+    `,
+        },
+        taripar: {
+          greeting: "Halo, Taripar!",
+          content: `
+      <p>Salah satu orang yang selalu punya cara untuk menghibur, mulai dari nyanyi atau juga hal-hal random yang kamu lakuin.</p>
+      <p>Meskipun begitu, aku melihat kamu lumayan punya rasa solidaritas yang sangat dalam dan sering menggunakan perasaan dalam melakukan apapun dengan tulus. </p>
+      <p>Semoga kamu bisa menyelesaikan kuliahmu dengan segera dan siapa tahu kamu mau stay di Bali lebih lama jadi kita bisa tetap ketemu dan nyanyi-nyanyi bareng lagi!</p>
+    `,
+        },
+        mirah: {
+          greeting: "Halo, Mirah!",
+          content: `
+      <p>Orang yang lumayan sering bisa diajak ngobrol dan sangat rajin. Salah satu orang diluar inti yang datengnya tepat waktu karena rumahnya deket sih.</p>
+      <p>Senang sih bisa kenal sama kamu, orang yang merhatiin banget segala sesuatunya dan tidak ada kata canggung ke siapapun. Meskipun kadang juga tidak terlalu banyak bicara, tapi lumayan tegas dan cepat dalam memutuskan sesuatu.</p>
+      <p>Setelah ini mungkin kamu bisa fokus ke skripsimu yang sedikit lagi selesai itu dan bisa lulus tepat waktu. Semangat terus dan selalu hati-hati kalau keluar rumah, karena rumahmu di gotham city nya denpasar ya  jadi harus super waspada!</p>
+    `,
+        },
+        monica: {
+          greeting: "Halo, Monica!",
+          content: `
+      <p>Salah satu orang paling seru di KKN ini. Selalu excited dan selalu semangat di KKN. Meskipun juga kadang suka ngeluh tapi tetep aja mau dilakuin.
+</p>
+      <p>Jadi Koordinator Bidang kayaknya udah tidak jadi hal yang baru buat kamu ya, karena dilihat dari cara mu kerja sangat tertata rapi dan detail. Meskipun kamu juga sering takut tidak bisa menyelesaikan semua ini, tapi ternyata bisa semua lho kamu melakukannya.</p>
+      <p>Selanjutnya, kamu bisa fokus ke kuliahmu dan skripsimu itu. Aku yakin kamu bisa banget selesain dengan cepat. Aku senang bisa mengenalmu dan terima kasih banyak udah mau kerja bareng sama aku. Untuk banner tinggal chat aja mau yang kayak gimana, nanti aku buatin kok!</p>
+    `,
+        },
+        "gek anya": {
+          greeting: "Halo, Gek Anya!",
+          content: `
+      <p>Sobat Penpro yang sangat solid ini! Senang bisa kenal dan kerja bareng sama kamu.</p>
+      <p>Kamu orang yang tidak terlalu banyak basa-basi dan langsung to the point. Soal proker juga sangat bisa diandalkan untuk membantu segala hal yang kurang di proker. 
+</p>
+      <p>Setelah ini, kamu bisa kembali fokus menyelesaikan skripsi agar bisa lulus dalam waktu dekat. Semangat terus ya dan terima kasih udah mau bekerja sama dengan aku!</p>
+    `,
+        },
+        komala: {
+          greeting: "Halo, Komala!",
+          content: `
+      <p>Orang yang sangat ceria dan atraktif banget. Selalu ada hal menyenangkan yang kamu untuk dibicarakan di KKN.</p>
+      <p>Meskipun kita tidak banyak berbicara, tapi aku tahu kamu orang baik. Kamu sering memikirkan hal yang terlalu jauh dan buat kamu kurang percaya diri, padahal kamu bisa melakukan itu dengan baik.
+</p>
+      <p>Setelah ini, kamu bisa kembali fokus pada kuliahmu dan karirmu. Tapi perlu diingat harus kuliah yang diutamakan, terlebih lagi hanya perlu 1 tahap lagi yang harus dilewati.</p>
+    `,
+        },
+      };
+
+      // ── LOGIC ──
+      function normalize(str) {
+        return str.trim().toLowerCase();
+      }
+
+      function openLetter() {
+        const input = document.getElementById("nameInput").value;
+        const key = normalize(input);
+        const data = letters[key];
+        const errEl = document.getElementById("errorMsg");
+
+        if (!data) {
+          errEl.classList.add("show");
+          document.getElementById("nameInput").style.borderBottomColor = "#b05050";
+          setTimeout(() => {
+            errEl.classList.remove("show");
+            document.getElementById("nameInput").style.borderBottomColor = "transparent";
+          }, 3000);
+          return;
+        }
+
+        errEl.classList.remove("show");
+
+        // Populate letter
+        document.getElementById("greetingText").textContent = data.greeting;
+        document.getElementById("letterContent").innerHTML = `<span class="letter-ornament">Short Letter</span>` + data.content;
+
+        // Switch screens
+        document.getElementById("screen-landing").style.display = "none";
+        const letterScreen = document.getElementById("screen-letter");
+        letterScreen.classList.add("visible");
+        letterScreen.style.opacity = "0";
+        setTimeout(() => {
+          letterScreen.style.opacity = "1";
+        }, 10);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function goBack() {
+        const letterScreen = document.getElementById("screen-letter");
+        letterScreen.classList.remove("visible");
+        document.getElementById("screen-landing").style.display = "flex";
+        document.getElementById("nameInput").value = "";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Enter key support
+      document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("nameInput").addEventListener("keydown", (e) => {
+          if (e.key === "Enter") openLetter();
+        });
+      });
+    </script>
+  </body>
+</html>
